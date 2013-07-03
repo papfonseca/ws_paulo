@@ -2,11 +2,12 @@
 <!-- This is the launch file for launching ws_mike -->
 <launch>
 <!--<arg name="use_nodelets" default="0"/> [> this flag will configure a nodes or nodelets based system<]-->
+<arg name="player_in" default="ws_p"/>
+<arg name="player_out" default="ws_a"/>
 
-
-	<node pkg="ws_paulo" type="ws_paulo" name="paulo" output="screen" required="true">
-		<remap from="player_in" to="ws_p"/>
-		<remap from="player_out" to="ws_a"/>
+	<node pkg="ws_paulo" type="ws_paulo" name="paulo" output="screen" required="false">
+		<remap from="player_in" to="$(arg player_in)"/>
+		<remap from="player_out" to="$(arg player_out)"/>
 
 		<!--param loading-->
 		<!--<param name="initial_object_pc_path" value="$(arg initial_object_pc_path)"/>-->

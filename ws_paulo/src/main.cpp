@@ -12,8 +12,13 @@ void chatterCallback(const std_msgs::String::ConstPtr& msg_in)
 	
   std_msgs::String msg_out;
   msg_out.data = "Hello world";
+
+	ros::Rate loop_rate(0.5);
+	ros::spinOnce();
+  loop_rate.sleep();
+
+	ROS_INFO("%s: will publish a message", _name.c_str());
   chatter_pub.publish(msg_out);
-  ROS_INFO("%s: will publish a message", _name.c_str());
 }
 
 
