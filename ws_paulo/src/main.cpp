@@ -28,7 +28,7 @@ void chatterCallback(const ws_referee::custom::ConstPtr& msg_in)
 		msg_out.dist = 0.0;
 		finish = true;
 	}else if(_pos_x > 5){
-		ROS_INFO("\n%s: I won the race!! :DD\n", _name.c_str());
+		ROS_WARN("\n\n%s: I won the race!! :DD\n", _name.c_str());
 		msg_out.winner = _name.c_str();
 		msg_out.dist = 0.0;
 		finish = true;
