@@ -1,0 +1,16 @@
+<package>
+  <description brief="ws_paulo">
+
+     ws_paulo
+
+  </description>
+  <author>paulofonseca</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ws_paulo</url>
+<depend package="roscpp"/>
+<depend package="std_msgs"/>
+
+</package>
+
+
