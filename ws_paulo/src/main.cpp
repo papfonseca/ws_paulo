@@ -2,16 +2,19 @@
 #include "std_msgs/String.h"
 
 #include <sstream>
+#include <ws_referee/custom.h>
 
 std::string _name = "Paulo";
 ros::Publisher chatter_pub;
 
-void chatterCallback(const std_msgs::String::ConstPtr& msg_in)
+void chatterCallback(const ws_referee::custom::ConstPtr& msg_in)
 {
-  ROS_INFO("%s: heard: [%s]",_name.c_str(),  msg_in->data.c_str());
+  ROS_INFO("%s: Received msg", _name.c_str());
 	
-  std_msgs::String msg_out;
-  msg_out.data = "Hello world";
+	ws_referee::custom msg_out;
+	msg_out.dist = 0.8;
+	msg_out.sender = _name;
+	msg_out.winner = "";
 
 	ROS_INFO("%s: will publish a message", _name.c_str());
   chatter_pub.publish(msg_out);
@@ -22,7 +25,7 @@ int main(int argc, char **argv)
 {
   ros::init(argc, argv, "ws_p");
   ros::NodeHandle n;
-  chatter_pub = n.advertise<std_msgs::String>("player_out", 1);
+  chatter_pub = n.advertise<ws_referee::custom>("player_out", 1);
   ros::Subscriber sub = n.subscribe("player_in", 1, chatterCallback);
 
   ROS_INFO("%s: node started", _name.c_str());
