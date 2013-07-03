@@ -15,7 +15,7 @@ void chatterCallback(const ws_referee::custom::ConstPtr& msg_in)
 	_pos_x += msg_in->dist;
 	
 	ws_referee::custom msg_out;
-	msg_out.dist = rand();
+	msg_out.dist = 0.8;
 	msg_out.sender = _name;
 	msg_out.winner = "";
 
