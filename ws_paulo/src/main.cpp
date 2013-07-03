@@ -3,6 +3,7 @@
 
 #include <sstream>
 #include <ws_referee/custom.h>
+#include <ws_referee/randomize.h>
 #include <visualization_msgs/Marker.h>
 
 std::string _name = "Paulo";
@@ -13,16 +14,32 @@ double _pos_y;
 
 void chatterCallback(const ws_referee::custom::ConstPtr& msg_in)
 {
-  ROS_INFO("%s: Received msg with dist %f", _name.c_str(), msg_in->dist);
-	_pos_x += msg_in->dist;
-	
-	ws_referee::custom msg_out;
-	msg_out.dist = 0.02;
-	msg_out.sender = _name;
-	msg_out.winner = "";
+	bool finish = false;
 
+  	ROS_INFO("%s: Received msg with dist %f", _name.c_str(), msg_in->dist);
+	_pos_x += msg_in->dist;
+
+	ws_referee::custom msg_out;
+	msg_out.sender = _name;
+
+	if(msg_in->winner != ""){
+		ROS_INFO("%s: %s won the race!! :(", _name.c_str(), msg_in->winner.c_str());
+		msg_out.winner = msg_in->winner;
+		msg_out.dist = 0.0;
+		finish = true;
+	}else if(_pos_x > 5){
+		ROS_INFO("\n%s: I won the race!! :DD\n", _name.c_str());
+		msg_out.winner = _name.c_str();
+		msg_out.dist = 0.0;
+		finish = true;
+	}else{
+		msg_out.dist = get_random_num();
+		msg_out.winner = "";
+	}
+
+	
 	ROS_INFO("%s: Iam at %f. I will publish a message", _name.c_str(), _pos_x);
-  chatter_pub.publish(msg_out);
+  	chatter_pub.publish(msg_out);
 
 	visualization_msgs::Marker marker;
 	marker.header.frame_id = "world";
@@ -52,6 +69,11 @@ void chatterCallback(const ws_referee::custom::ConstPtr& msg_in)
 	marker.type = visualization_msgs::Marker::TEXT_VIEW_FACING;
 	marker.text = "Paulo";
 	marker_pub.publish(marker);
+
+	if(finish){
+		ROS_INFO("%s: I will shutdown",_name.c_str());
+		ros::shutdown();
+	}
 }
 
 
@@ -59,6 +81,9 @@ int main(int argc, char **argv)
 {
   ros::init(argc, argv, "ws_p");
   ros::NodeHandle n;
+
+init_randomization_seed();
+
   chatter_pub = n.advertise<ws_referee::custom>("player_out", 1);
   marker_pub = n.advertise<visualization_msgs::Marker>("paulo_marker", 1);
   ros::Subscriber sub = n.subscribe("player_in", 1, chatterCallback);
