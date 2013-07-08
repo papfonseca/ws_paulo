@@ -186,7 +186,7 @@ int main(int argc, char **argv)
 	listener = (tf::TransformListener*) new (tf::TransformListener);
 
 	_pos_x = -5;
-	_pos_y = 6; //to be read from a param
+	_pos_y = 3; //to be read from a param
 
 	ros::Duration(0.1).sleep();
 
