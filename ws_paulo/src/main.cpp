@@ -11,7 +11,7 @@
 
 //Global variable 
 std::string _name="paulo";
-std::string _policed_player="paulo";
+std::string _policed_player="hamid";
 ros::Publisher chatter_pub;
 ros::Publisher marker_pub;
 
