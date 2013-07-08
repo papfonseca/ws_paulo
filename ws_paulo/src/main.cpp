@@ -44,6 +44,9 @@ void chatterCallback(const ws_referee::custom::ConstPtr& msg_in)
 
 	if (be_a_police)	
 	{
+
+		ROS_INFO("%s: I will police %s.",_name.c_str(), _policed_player.c_str());
+
 		if (!is_in_field(tf_2.getOrigin().x(), tf_2.getOrigin().y()))
 		{
 			//send player to new_pos_x = -5 and new_pos_y=0
