@@ -103,7 +103,7 @@ void chatterCallback(const ws_referee::custom::ConstPtr& msg_in)
 		msg_out.dist = 0;
 		should_quit=true;
 	}
-	else if (_pos_x > 5) //if I won
+	else if (transform.getOrigin().x() > 5) //if I won
 	{
 		ROS_WARN("\n\n%s: I WON IUPIIII\n\n ",_name.c_str());
 		msg_out.winner = "paulo";
