@@ -19,6 +19,8 @@ tf::Transform transform;
 tf::TransformBroadcaster* br;
 tf::TransformListener* listener;
 
+ros::ServiceClient *client;
+
 double _pos_x;
 double _pos_y;
 
@@ -46,6 +48,17 @@ void chatterCallback(const ws_referee::custom::ConstPtr& msg_in)
 		{
 			//send player to new_pos_x = -5 and new_pos_y=0
 			ROS_INFO("%s: Policing ... I found that %s if out of the arena. Will send him to -5,0", _name.c_str(), _policed_player.c_str());
+
+			ws_referee::MovePlayerTo srv;
+			srv.request.new_pos_x = -5;
+			srv.request.new_pos_y = 0;
+			srv.request.player_that_requested = _name;
+
+			if(client->call(srv)){
+
+			}else{
+				ROS_ERROR("failed to call service ...");
+			}
 		}
 	}
 
@@ -198,9 +211,10 @@ int main(int argc, char **argv)
 	tf_tmp.setRotation( tf::Quaternion(0, 0, 0, 1) );
 	br->sendTransform(tf::StampedTransform(tf_tmp, ros::Time::now(), "tf_" + _name, "tf_tmp" + _name));
 
+	client = (ros::ServiceClient*) new (ros::ServiceClient);
+	*client = n.serviceClient<ws_referee::MovePlayerTo>("move_player_"+_policed_player);
 
-
-	ros::ServiceServer service = n.advertiseService("move_player_" + _policed_player, serviceCallback);
+	ros::ServiceServer service = n.advertiseService("move_player_" + _name, serviceCallback);
 	ros::Subscriber sub = n.subscribe("player_in", 1, chatterCallback);
 	ros::Rate loop_rate(2);
 
