@@ -11,7 +11,7 @@
 
 //Global variable 
 std::string _name="paulo";
-std::string _policed_player="hamid";
+std::string _policed_player="paulo";
 ros::Publisher chatter_pub;
 ros::Publisher marker_pub;
 
@@ -186,9 +186,9 @@ int main(int argc, char **argv)
 	listener = (tf::TransformListener*) new (tf::TransformListener);
 
 	_pos_x = -5;
-	_pos_y = 1; //to be read from a param
+	_pos_y = 6; //to be read from a param
 
-	ros::Duration(0.3).sleep();
+	ros::Duration(0.1).sleep();
 
 
 	ros::Time t = ros::Time::now();
@@ -203,7 +203,7 @@ int main(int argc, char **argv)
 	br->sendTransform(tf::StampedTransform(tf_tmp, t, "tf_" + _name, "tf_tmp" + _name));
 
 	ros::spinOnce();
-	ros::Duration(0.3).sleep();
+	ros::Duration(0.1).sleep();
 
 	//at time now
 	transform.setOrigin( tf::Vector3(_pos_x, _pos_y, 0.0) );
@@ -222,13 +222,17 @@ int main(int argc, char **argv)
 	ros::Rate loop_rate(2);
 
 	ROS_INFO("%s: node started",_name.c_str());
+
+	ros::MultiThreadedSpinner spinner(4);
+	spinner.spin();
+
 	int count = 0;
-	while (ros::ok())
+	/*while (ros::ok())
 	{
 		ros::spinOnce();
 		loop_rate.sleep();
 		++count;
-	}
+	}*/
 
 
 	return 0;
