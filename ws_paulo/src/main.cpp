@@ -103,7 +103,7 @@ void chatterCallback(const ws_referee::custom::ConstPtr& msg_in)
 	else if (_pos_x > 5) //if I won
 	{
 		ROS_WARN("\n\n%s: I WON IUPIIII\n\n ",_name.c_str());
-		msg_out.winner = "mike";
+		msg_out.winner = "paulo";
 		msg_out.dist = 0;
 		should_quit=true;
 	}
@@ -136,7 +136,7 @@ void chatterCallback(const ws_referee::custom::ConstPtr& msg_in)
 	marker.color.r = 0.4;
 	marker.pose.position.x = - 0.3;
 	marker.type = visualization_msgs::Marker::TEXT_VIEW_FACING;
-	marker.text = "mike";
+	marker.text = "paulo";
 	marker_pub.publish( marker );
 
 	//Send the transformation
@@ -175,7 +175,7 @@ int main(int argc, char **argv)
 	init_randomization_seed();
 
 	chatter_pub = n.advertise<ws_referee::custom>("player_out", 1);
-	marker_pub = n.advertise<visualization_msgs::Marker>("mike_marker", 1);
+	marker_pub = n.advertise<visualization_msgs::Marker>("paulo_marker", 1);
 
 
 	//Allocate the broadcaster and listener
