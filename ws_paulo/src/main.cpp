@@ -70,7 +70,7 @@ void chatterCallback(const ws_referee::custom::ConstPtr& msg_in)
 	tf_tmp.setRotation( tf::Quaternion(0, 0, get_random_deg()*M_PI/180, 1) );
 	br->sendTransform(tf::StampedTransform(tf_tmp, ros::Time::now(), "tf_" + _name, "tf_tmp" + _name));
 
-	ros::Duration(0.3).sleep(); //wait a bit
+	ros::Duration(0.1).sleep(); //wait a bit
 
 	//query transform world to tf_tmp_mike
 	tf::StampedTransform tf_1;
